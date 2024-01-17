@@ -1,0 +1,54 @@
+[kiri@kiri-desktop rquickjs-sys-0.3.1]$ cargo build --features exports,bindgen,update-bindings
+   Compiling rustix v0.38.30
+error[E0425]: cannot find value `FS_IOC_GETFLAGS` in module `c`
+    --> /home/kiri/.cargo/registry/src/index.crates.io-6f17d22bba15001f/rustix-0.38.30/src/fs/ioctl.rs:142:57
+     |
+142  |         let ctl = ioctl::Getter::<ioctl::BadOpcode<{ c::FS_IOC_GETFLAGS }>, u32>::new();
+     |                                                         ^^^^^^^^^^^^^^^
+     |
+    ::: /home/kiri/.cargo/registry/src/index.crates.io-6f17d22bba15001f/libc-0.2.152/src/unix/linux_like/linux/mod.rs:2921:1
+     |
+2921 | pub const SIOCGIFFLAGS: ::c_ulong = 0x00008913;
+     | --------------------------------- similarly named constant `SIOCGIFFLAGS` defined here
+     |
+help: a constant with a similar name exists
+     |
+142  |         let ctl = ioctl::Getter::<ioctl::BadOpcode<{ c::SIOCGIFFLAGS }>, u32>::new();
+     |                                                         ~~~~~~~~~~~~
+help: consider importing this constant
+     |
+5    + use linux_raw_sys::ioctl::FS_IOC_GETFLAGS;
+     |
+help: if you import `FS_IOC_GETFLAGS`, refer to it directly
+     |
+142  -         let ctl = ioctl::Getter::<ioctl::BadOpcode<{ c::FS_IOC_GETFLAGS }>, u32>::new();
+142  +         let ctl = ioctl::Getter::<ioctl::BadOpcode<{ FS_IOC_GETFLAGS }>, u32>::new();
+     |
+
+error[E0425]: cannot find value `FS_IOC_SETFLAGS` in module `c`
+    --> /home/kiri/.cargo/registry/src/index.crates.io-6f17d22bba15001f/rustix-0.38.30/src/fs/ioctl.rs:161:57
+     |
+161  |         let ctl = ioctl::Setter::<ioctl::BadOpcode<{ c::FS_IOC_SETFLAGS }>, u32>::new(flags.bits());
+     |                                                         ^^^^^^^^^^^^^^^
+     |
+    ::: /home/kiri/.cargo/registry/src/index.crates.io-6f17d22bba15001f/libc-0.2.152/src/unix/linux_like/linux/mod.rs:2922:1
+     |
+2922 | pub const SIOCSIFFLAGS: ::c_ulong = 0x00008914;
+     | --------------------------------- similarly named constant `SIOCSIFFLAGS` defined here
+     |
+help: a constant with a similar name exists
+     |
+161  |         let ctl = ioctl::Setter::<ioctl::BadOpcode<{ c::SIOCSIFFLAGS }>, u32>::new(flags.bits());
+     |                                                         ~~~~~~~~~~~~
+help: consider importing this constant
+     |
+5    + use linux_raw_sys::ioctl::FS_IOC_SETFLAGS;
+     |
+help: if you import `FS_IOC_SETFLAGS`, refer to it directly
+     |
+161  -         let ctl = ioctl::Setter::<ioctl::BadOpcode<{ c::FS_IOC_SETFLAGS }>, u32>::new(flags.bits());
+161  +         let ctl = ioctl::Setter::<ioctl::BadOpcode<{ FS_IOC_SETFLAGS }>, u32>::new(flags.bits());
+     |
+
+For more information about this error, try `rustc --explain E0425`.
+error: could not compile `rustix` (lib) due to 2 previous errors
